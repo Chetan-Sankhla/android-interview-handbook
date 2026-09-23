@@ -20,7 +20,7 @@ It is deliberately split by topic so developers can study one storage concept at
 | [Files & Caching](./file-storage-and-caching.md) | Downloads, cache design, crash-safe writes, metadata |
 | [Storage Security](./storage-security.md) | Keystore, credentials, backup, sharing, logout |
 | [Offline-First](./offline-first.md) | Local source of truth, sync, conflicts, outbox, scale |
-| [System Design](./system-design.md) | Senior/Lead storage architecture scenarios |
+| [System Design](./system-design.md) | advanced storage architecture scenarios |
 
 ## Study path
 
@@ -83,3 +83,5 @@ For every storage decision, be able to explain:
 ## Source policy
 
 Android behavior changes over time. This repository prefers current official Android documentation for platform/API facts and calls out version-specific behavior where it matters.
+
+> **Practice tip:** Answer the question aloud before opening a follow-up. Use the code examples to connect the concept to real Android implementation.

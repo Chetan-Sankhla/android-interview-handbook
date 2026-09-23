@@ -49,3 +49,5 @@
 - [ ] Social media feed
 - [ ] Video streaming
 - [ ] File upload/download
+
+- [x] Android Architecture & Design — 104 curated questions

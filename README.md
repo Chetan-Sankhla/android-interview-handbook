@@ -81,3 +81,15 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## License
 
 MIT. See [LICENSE](./LICENSE).
+
+
+### Interview revision workflow
+
+Each question includes a **Sample Senior Answer**, a question-specific Senior/Lead reasoning section, and a **Quick Revision** summary. Common follow-ups are intentionally presented as prompts first: where a follow-up maps to another handbook question, it links there so you can reason through it before opening the answer; otherwise the answer is hidden in a collapsible section.
+
+
+## Interview Practice Approach
+
+This repository is designed as an **answer key**, not a collection of artificial “senior answers”. Start with the basic question, answer it aloud, then use progressively deeper follow-ups to probe mechanism, edge cases, trade-offs, and real-world usage. Related follow-ups can point to other questions, and hidden answers can be revealed only after you have reasoned through them.
+
+Where theory alone is difficult to visualize, topics include small Kotlin/Android examples.

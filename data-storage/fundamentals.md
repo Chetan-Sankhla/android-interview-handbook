@@ -2,7 +2,7 @@
 
 > Interview preparation from Android fundamentals to Senior/Lead-level reasoning.
 
-Each question is intentionally written as a learning resource: the answer explains the concept, then the follow-ups and senior discussion push toward production reasoning.
+Each question is written as a learning resource: start with the core answer, then use progressively deeper follow-ups to test mechanism, trade-offs, edge cases, and real-world usage.
 
 ## Q1. What storage options are available to an Android application?
 
@@ -24,19 +24,57 @@ A senior developer should choose based on the data's requirements rather than si
 
 ### Common Follow-ups
 
-- How do DataStore and Room differ?
-- When should a file be used instead of a database?
-- When should data go into shared storage?
-- How does uninstall affect each storage type?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **How do DataStore and Room differ?**
 
-A strong answer starts with the data model rather than the API. For example, an e-commerce app might keep preferences in DataStore, products/orders in Room, downloaded images in app-specific storage, and user-exported invoices through SAF.
+<details>
+<summary>Reveal sample answer</summary>
+
+Room is a better fit when the data needs queries, indexes, relationships, or partial updates. DataStore is intended for small application state rather than acting as a general-purpose database.
+
+</details>
+
+2. **When should a file be used instead of a database?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **When should data go into shared storage?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+4. **How does uninstall affect each storage type?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Choosing Room for every kind of local data, or storing large binary files as database blobs without a specific reason.
 
+
+
+### Quick Revision
+
+**Key idea:** Android provides several storage mechanisms, and the correct choice depends on **ownership, size, structure, visibility, and lifecycle**. - **App-specific internal storage**: private files and cache.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q2. What is app-specific storage?
 
 **Difficulty:** 🟢 Basic
@@ -51,19 +89,57 @@ Use it for things such as downloaded content that only your app needs, generated
 
 ### Common Follow-ups
 
-- Internal vs app-specific external storage?
-- What happens when the app is uninstalled?
-- Where would you store sensitive files?
-- When should MediaStore be used instead?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Internal vs app-specific external storage?**
 
-The important architectural decision is whether the file is **app-owned** or **user-owned**. If the user expects the file to remain visible and useful outside your app, shared storage is usually more appropriate.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **What happens when the app is uninstalled?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **Where would you store sensitive files?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+4. **When should MediaStore be used instead?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Assuming every file on external storage is automatically private just because the app created it.
 
+
+
+### Quick Revision
+
+**Key idea:** App-specific storage is intended for files that belong to your application and are not meant to be independently accessed by other apps. Android provides app-specific **internal** and **external** directories.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q3. What is the difference between persistent files and cache files?
 
 **Difficulty:** 🟢 Basic
@@ -76,19 +152,57 @@ A cache should therefore never be the only copy of information required for corr
 
 ### Common Follow-ups
 
-- What should go into cacheDir?
-- Can Android delete cache files?
-- How would you implement cache eviction?
-- How does cache differ from a database?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **What should go into cacheDir?**
 
-For a production cache, define an eviction policy such as maximum size, TTL, or LRU. Keep enough metadata to rebuild the cache after process death or eviction.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **Can Android delete cache files?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How would you implement cache eviction?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+4. **How does cache differ from a database?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Treating cache as durable storage or assuming the OS will preserve cache indefinitely.
 
+
+
+### Quick Revision
+
+**Key idea:** Persistent app-specific files are expected to survive normal application operation and are used for data the app needs to retain. Cache files are explicitly disposable: Android may remove them when storage is constrained.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q4. When should data be stored in a database instead of a file?
 
 **Difficulty:** 🟡 Intermediate
@@ -101,19 +215,57 @@ Use files for large binary or opaque content such as images, videos, PDFs, or ar
 
 ### Common Follow-ups
 
-- Would you store an image in Room?
-- How would you model a file cache?
-- How do you query metadata efficiently?
-- What are the trade-offs of BLOB storage?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Would you store an image in Room?**
 
-A useful rule is: if the application needs SQL semantics for the content itself, use Room; if the content is opaque bytes and the app mainly needs a reference to it, store the bytes separately and keep metadata in Room.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **How would you model a file cache?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How do you query metadata efficiently?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+4. **What are the trade-offs of BLOB storage?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Putting large media directly into Room simply because Room is already available.
 
+
+
+### Quick Revision
+
+**Key idea:** Use a database when the data is **structured and queryable**. Typical signals are filtering, sorting, joins, relationships, indexes, partial updates, transactions, or independent records.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q5. What happens to app-specific files after uninstall?
 
 **Difficulty:** 🟢 Basic
@@ -126,18 +278,48 @@ This means app-specific storage is a good fit for application-owned downloads, g
 
 ### Common Follow-ups
 
-- Which storage survives uninstall?
-- Would you store user documents in app-specific storage?
-- How would you migrate old app-owned files to shared storage?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Which storage survives uninstall?**
 
-Before moving user-visible data into app-specific storage, decide whether the product promises that the data belongs to the user independently of the app.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **Would you store user documents in app-specific storage?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How would you migrate old app-owned files to shared storage?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Assuming an app-specific file can be recovered after uninstall.
 
+
+
+### Quick Revision
+
+**Key idea:** App-specific files are normally removed when the application is uninstalled. This is one of the key distinctions from user-owned shared storage, where files are intended to survive independently of the application.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q6. Why should an Android app avoid hard-coded filesystem paths?
 
 **Difficulty:** 🟡 Intermediate
@@ -150,18 +332,41 @@ Use framework APIs such as `filesDir`, `cacheDir`, `MediaStore`, and SAF URIs. T
 
 ### Common Follow-ups
 
-- Why are content URIs important?
-- Can every content URI be converted to a path?
-- How would you upload a SAF-selected file?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Why are content URIs important?**
 
-A robust abstraction should accept streams or URIs where possible instead of requiring a local path. This also makes cloud/document-provider integrations much easier.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **Can every content URI be converted to a path?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How would you upload a SAF-selected file?** → [Open the related question](mediastore-and-saf.md#how-would-you-upload-a-saf-selected-file)
 
 ### Common Mistake
 
 Writing utility code that assumes every URI maps to `/storage/emulated/0/...`.
 
+
+
+### Quick Revision
+
+**Key idea:** Android's storage model is purpose-based and can involve internal storage, removable volumes, media providers, document providers, and cloud-backed providers. A hard-coded path assumes a filesystem layout that may not exist or may not be appropriate.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q7. What is the purpose-based storage model?
 
 **Difficulty:** 🟡 Intermediate
@@ -174,18 +379,48 @@ This model reduces unnecessary access to unrelated user files and makes ownershi
 
 ### Common Follow-ups
 
-- How does scoped storage fit into this model?
-- When is broad file access justified?
-- Why is SAF privacy-friendly?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **How does scoped storage fit into this model?**
 
-At architecture-review time, classify every stored artifact by ownership and access pattern before selecting an API. This usually exposes unnecessary permissions and overly broad storage access early.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **When is broad file access justified?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **Why is SAF privacy-friendly?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Starting with MANAGE_EXTERNAL_STORAGE and designing the storage model around that permission.
 
+
+
+### Quick Revision
+
+**Key idea:** Modern Android storage is organized around what the app is trying to do rather than giving every app unrestricted filesystem access. Private app data uses app-specific storage; user media uses MediaStore; user-selected documents use SAF; small state uses DataStore; structured data uses Room.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q8. How should you decide where a new piece of data belongs?
 
 **Difficulty:** 🟡 Intermediate
@@ -205,21 +440,18 @@ Then evaluate security, backup behavior, migration, offline requirements, and ex
 
 ### Common Follow-ups
 
-- Where would auth state go?
-- Where would downloaded images go?
-- Where would an exported PDF go?
-- Where would an offline product catalog go?
-
-### Senior/Lead Perspective
-
-Senior-level design is often about defining the ownership boundary correctly. The API choice should follow that boundary, not the other way around.
-
-### Common Mistake
-
-Choosing storage based on familiarity instead of data ownership and lifecycle.
+Try to answer these aloud before revealing the answer.
 
 ### References
 
 - https://developer.android.com/training/data-storage
 - https://developer.android.com/training/data-storage/app-specific
 - https://developer.android.com/training/data-storage/shared
+
+### Quick Revision
+
+**Key idea:** Ask these questions in order: 1. Is it structured/queryable?
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.

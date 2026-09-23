@@ -68,3 +68,8 @@ A concrete misconception.
 
 - Official documentation
 ```
+
+
+### Interview revision workflow
+
+Each question includes a **Sample Senior Answer**, a question-specific Senior/Lead reasoning section, and a **Quick Revision** summary. Common follow-ups are intentionally presented as prompts first: where a follow-up maps to another handbook question, it links there so you can reason through it before opening the answer; otherwise the answer is hidden in a collapsible section.

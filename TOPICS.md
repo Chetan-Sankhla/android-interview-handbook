@@ -14,3 +14,10 @@
 | Performance | Planned | — |
 | Security | Planned | — |
 | System Design | Planned | — |
+
+## Android Architecture & Design
+
+**Status:** Added
+
+Topics include architecture fundamentals, MVVM, MVI/UDF, Clean Architecture, repositories/use cases, dependency injection, state management, modularization, navigation/deep links, lifecycle/process death, offline-first architecture, testing architecture, and system design.
+

@@ -2,7 +2,7 @@
 
 > Interview preparation from Android fundamentals to Senior/Lead-level reasoning.
 
-Each question is intentionally written as a learning resource: the answer explains the concept, then the follow-ups and senior discussion push toward production reasoning.
+Each question is written as a learning resource: start with the core answer, then use progressively deeper follow-ups to test mechanism, trade-offs, edge cases, and real-world usage.
 
 ## Q1. How do you model a one-to-many relationship in Room?
 
@@ -14,20 +14,66 @@ Use separate entities and a foreign key from the child table to the parent. For 
 
 Room can represent the relationship in a query result using `@Relation`, but explicit SQL joins/projections are often preferable for performance-sensitive screens because they make the selected columns and query shape obvious.
 
+### Example
+
+```kotlin
+@Entity
+data class User(
+    @PrimaryKey val id: Long,
+    val name: String
+)
+
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM User WHERE id = :id")
+    fun observe(id: Long): Flow<User?>
+}
+```
+
 ### Common Follow-ups
 
-- What is @Relation?
-- When should you use a JOIN instead?
-- Should foreign keys be indexed?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **What is @Relation?**
 
-A senior developer chooses the representation based on query needs. Convenience relationship APIs are useful, but they should not replace understanding the SQL being executed.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **When should you use a JOIN instead?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **Should foreign keys be indexed?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Treating @Relation as a magic replacement for query design.
 
+
+
+### Quick Revision
+
+**Key idea:** Use separate entities and a foreign key from the child table to the parent. For example, `User` can have many `Order` rows, each containing `userId`.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q2. How do you model many-to-many relationships?
 
 **Difficulty:** 🟡 Intermediate
@@ -40,18 +86,48 @@ The junction table normally has a composite primary key or unique constraint to 
 
 ### Common Follow-ups
 
-- Why not store IDs as a comma-separated string?
-- What indexes are needed?
-- How would you query both directions?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Why not store IDs as a comma-separated string?**
 
-Normalized relationships make querying, updates, constraints, and indexing predictable. Serialized ID lists become difficult to query and validate as the dataset grows.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **What indexes are needed?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How would you query both directions?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Using a JSON/list column for a relationship that needs relational queries.
 
+
+
+### Quick Revision
+
+**Key idea:** Use a junction table. For example, `Student`, `Course`, and `StudentCourse(studentId, courseId)` represent students enrolled in courses.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q3. What is the difference between @Embedded and @Relation?
 
 **Difficulty:** 🟡 Intermediate
@@ -64,18 +140,48 @@ Using a JSON/list column for a relationship that needs relational queries.
 
 ### Common Follow-ups
 
-- When should an embedded object become an Entity?
-- Can embedded fields collide?
-- How do relations affect query cost?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **When should an embedded object become an Entity?**
 
-Use `@Embedded` when the nested object is part of the same row's value. Use a separate entity when the data has independent lifecycle, identity, or query requirements.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **Can embedded fields collide?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How do relations affect query cost?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Using @Embedded for data that actually requires independent persistence and relationships.
 
+
+
+### Quick Revision
+
+**Key idea:** `@Embedded` flattens fields from another object into the same result/table representation. It is useful for value-like groups of fields.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q4. How do you prevent N+1 queries with Room?
 
 **Difficulty:** 🔴 Advanced
@@ -86,20 +192,66 @@ N+1 occurs when the app loads a parent list and then executes another query for 
 
 Prefer a single well-designed JOIN/projection, a batched `IN (...)` query, or an appropriate relationship query. Measure the resulting SQL and indexes rather than assuming one pattern is always fastest.
 
+### Example
+
+```kotlin
+@Entity
+data class User(
+    @PrimaryKey val id: Long,
+    val name: String
+)
+
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM User WHERE id = :id")
+    fun observe(id: Long): Flow<User?>
+}
+```
+
 ### Common Follow-ups
 
-- How would you batch child IDs?
-- When is @Relation acceptable?
-- How would you measure the problem?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **How would you batch child IDs?**
 
-A senior answer should identify N+1 as an architectural/query-shape problem, not a dispatcher problem. Moving 1,001 queries to a background thread still leaves 1,001 queries.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **When is @Relation acceptable?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How would you measure the problem?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Fixing N+1 by moving all queries to IO without reducing query count.
 
+
+
+### Quick Revision
+
+**Key idea:** N+1 occurs when the app loads a parent list and then executes another query for each parent. This can create hundreds or thousands of database operations.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q5. What are indexes and when should you add them?
 
 **Difficulty:** 🟡 Intermediate
@@ -112,18 +264,48 @@ Add indexes based on actual query patterns. Indexes are not free: they consume s
 
 ### Common Follow-ups
 
-- Which columns would you index?
-- What is a composite index?
-- Can too many indexes hurt writes?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Which columns would you index?**
 
-Use query plans and production-like data to validate indexing decisions. For a large table, an index strategy should be reviewed alongside the most expensive queries.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **What is a composite index?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **Can too many indexes hurt writes?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Adding indexes to every column without considering write cost or query patterns.
 
+
+
+### Quick Revision
+
+**Key idea:** An index is an additional database structure that can speed up lookups, filtering, joins, and sometimes ordering on indexed columns. Add indexes based on actual query patterns.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q6. How would you model a product catalog with categories and variants?
 
 **Difficulty:** 🔴 Advanced
@@ -136,18 +318,48 @@ If the UI needs a flattened listing, use a projection query rather than denormal
 
 ### Common Follow-ups
 
-- Where would price/stock belong?
-- How would you support offline search?
-- How would you page products?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Where would price/stock belong?**
 
-The senior-level concern is balancing normalized data with read patterns. Keep the source model correct, then optimize read projections and indexes for actual screens.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **How would you support offline search?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Define the local source of truth, sync trigger, conflict policy, and UI behavior while offline. A cache by itself is not an offline-first architecture unless consistency rules are explicit.
+
+</details>
+
+3. **How would you page products?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Creating a single enormous Product table containing every category-specific field.
 
+
+
+### Quick Revision
+
+**Key idea:** Separate product identity from variant-level attributes. A typical model could use `Product`, `Category`, `ProductCategory`, and `ProductVariant`, with stable server IDs and appropriate foreign keys/indexes.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q7. When would you use a projection instead of returning an Entity?
 
 **Difficulty:** 🟡 Intermediate
@@ -160,18 +372,48 @@ For example, a product-list screen may need `id`, `name`, `thumbnailUri`, and `p
 
 ### Common Follow-ups
 
-- Can a projection return a DTO?
-- How does this help performance?
-- How does it affect schema changes?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Can a projection return a DTO?**
 
-Projections are especially valuable for large tables and frequently refreshed UI lists. They also make query intent explicit.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **How does this help performance?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Measure the actual bottleneck first. Make the smallest change that addresses it and verify the result with profiling or a reproducible benchmark.
+
+</details>
+
+3. **How does it affect schema changes?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Define the old and new schemas, test representative existing data, and provide a valid path from every supported version. Treat destructive migration as an explicit data-loss decision rather than a default shortcut.
+
+</details>
 
 ### Common Mistake
 
 Returning full entities everywhere and then mapping away most fields.
 
+
+
+### Quick Revision
+
+**Key idea:** Use a projection when a screen needs only a subset of columns or a calculated/joined result. Returning only required fields reduces mapping work and can reduce I/O and memory usage.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q8. Why does Room avoid object references between entities?
 
 **Difficulty:** 🔴 Advanced
@@ -182,21 +424,35 @@ Room explicitly avoids treating entities like an in-memory object graph with arb
 
 You should explicitly query related data, which makes the database access pattern visible and controllable.
 
+### Example
+
+```kotlin
+@Entity
+data class User(
+    @PrimaryKey val id: Long,
+    val name: String
+)
+
+@Dao
+interface UserDao {
+    @Query("SELECT * FROM User WHERE id = :id")
+    fun observe(id: Long): Flow<User?>
+}
+```
+
 ### Common Follow-ups
 
-- How do foreign keys represent relationships?
-- How does @Relation help?
-- Why can automatic object graphs be dangerous?
-
-### Senior/Lead Perspective
-
-This is an important senior concept: persistence APIs should not make expensive I/O look like cheap property access. Explicit data access makes performance easier to reason about.
-
-### Common Mistake
-
-Expecting `order.user.name` to behave like an in-memory object graph without considering database queries.
+Try to answer these aloud before revealing the answer.
 
 ### References
 
 - https://developer.android.com/training/data-storage/room/relationships
 - https://developer.android.com/training/data-storage/room/defining-data
+
+### Quick Revision
+
+**Key idea:** Room explicitly avoids treating entities like an in-memory object graph with arbitrary references. Relational databases represent relationships through keys and tables, while object references can hide query cost and loading behavior.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.

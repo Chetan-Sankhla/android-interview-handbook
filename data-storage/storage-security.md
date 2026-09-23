@@ -2,7 +2,7 @@
 
 > Interview preparation from Android fundamentals to Senior/Lead-level reasoning.
 
-Each question is intentionally written as a learning resource: the answer explains the concept, then the follow-ups and senior discussion push toward production reasoning.
+Each question is written as a learning resource: start with the core answer, then use progressively deeper follow-ups to test mechanism, trade-offs, edge cases, and real-world usage.
 
 ## Q1. Is internal storage automatically secure?
 
@@ -16,18 +16,41 @@ It is not equivalent to end-to-end encryption or protection against a compromise
 
 ### Common Follow-ups
 
-- What does Android Keystore solve?
-- What about backups?
-- What about rooted/compromised devices?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **What does Android Keystore solve?** → [Open the related question](storage-security.md#what-is-android-keystore)
 
-Security decisions should be based on the threat model. Sandbox isolation, encryption at rest, and key protection address different threats.
+2. **What about backups?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **What about rooted/compromised devices?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Calling internal storage 'encrypted secure storage' without qualification.
 
+
+
+### Quick Revision
+
+**Key idea:** Internal app storage is protected by Android's application sandbox, which prevents ordinary applications from directly accessing another app's private files. That is an important isolation boundary.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q2. How would you store a refresh token securely?
 
 **Difficulty:** 🔴 Advanced
@@ -40,18 +63,48 @@ Do not store raw passwords. Also consider backup behavior, logging, screenshots,
 
 ### Common Follow-ups
 
-- Should the token be included in backups?
-- Where should encryption keys live?
-- What happens on logout?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Should the token be included in backups?**
 
-The secure-storage design is broader than one API. A senior engineer should define the complete credential lifecycle: issuance, persistence, refresh, rotation, revocation, logout, and backup/restore behavior.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **Where should encryption keys live?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **What happens on logout?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Encrypting a token but logging it or including it in an unintended backup.
 
+
+
+### Quick Revision
+
+**Key idea:** Minimize token lifetime and exposure, store it in app-private state, and use Android Keystore-backed cryptographic protection when encryption of the persisted token is required by the threat model. Do not store raw passwords.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q3. What is Android Keystore?
 
 **Difficulty:** 🟡 Intermediate
@@ -64,18 +117,48 @@ The key point is that the application can use a protected key without treating t
 
 ### Common Follow-ups
 
-- Can Keystore store arbitrary application data?
-- What is hardware-backed security?
-- How would you combine Keystore with AES-GCM?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Can Keystore store arbitrary application data?**
 
-Use Keystore for key protection, not as a general database. Store encrypted application data separately and keep the encryption design explicit.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **What is hardware-backed security?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How would you combine Keystore with AES-GCM?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Thinking Keystore itself is a general-purpose secure database.
 
+
+
+### Quick Revision
+
+**Key idea:** Android Keystore provides a mechanism for generating and protecting cryptographic keys with controlled access. Depending on device capabilities and configuration, keys can receive hardware-backed protection.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q4. How would you encrypt a sensitive local file?
 
 **Difficulty:** 🔴 Advanced
@@ -88,18 +171,48 @@ Plan for key rotation, corruption, logout, backup/restore, and migration before 
 
 ### Common Follow-ups
 
-- Where does the key live?
-- What is authenticated encryption?
-- How do you rotate keys?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Where does the key live?**
 
-A production encryption format is an application protocol. Version it so the team can change algorithms or key-handling strategy later without losing data.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **What is authenticated encryption?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How do you rotate keys?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Encrypting bytes with a hard-coded key or reusing a fixed IV/nonce.
 
+
+
+### Quick Revision
+
+**Key idea:** Use authenticated encryption such as AES-GCM with a key protected by Android Keystore. The file format should include whatever non-secret metadata is required to decrypt and verify the content, such as a version and IV/nonce.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q5. Should sensitive DataStore data be backed up?
 
 **Difficulty:** 🔴 Advanced
@@ -112,18 +225,48 @@ Separate sensitive and non-sensitive state into different DataStore files when n
 
 ### Common Follow-ups
 
-- How do you configure backup rules?
-- What should happen after device restore?
-- Should refresh tokens be restored?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **How do you configure backup rules?**
 
-Backup is part of the threat model. A secret that is safe only because it is device-local can become a different security problem when copied to another device or cloud backup.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **What should happen after device restore?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **Should refresh tokens be restored?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Assuming app-private files are automatically excluded from every backup mechanism.
 
+
+
+### Quick Revision
+
+**Key idea:** Not automatically. DataStore files can participate in Android backup and device-to-device transfer depending on configuration.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q6. What storage security mistakes commonly appear in Android apps?
 
 **Difficulty:** 🔴 Advanced
@@ -136,18 +279,48 @@ Security also includes lifecycle: logout should invalidate or remove credentials
 
 ### Common Follow-ups
 
-- How can logs leak storage data?
-- How can FileProvider help?
-- What should be excluded from backups?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **How can logs leak storage data?**
 
-A security review should trace sensitive data end-to-end: acquisition → memory → persistence → backup → sharing → deletion.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **How can FileProvider help?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **What should be excluded from backups?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Reviewing only the database/file encryption while ignoring logs, backups, and exported files.
 
+
+
+### Quick Revision
+
+**Key idea:** Common mistakes include storing secrets in plaintext, logging credentials, putting sensitive data in filenames, leaving temporary copies behind, exposing files through unsafe sharing, ignoring backup rules, and treating broad storage permissions as harmless. Security also includes lifecycle: logout should invalidate or remove credentials, and temporary files should not outlive their purpose unnecessarily.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q7. How would you securely share a private file with another app?
 
 **Difficulty:** 🟡 Intermediate
@@ -160,18 +333,48 @@ Do not expose a raw filesystem path or make a private directory broadly accessib
 
 ### Common Follow-ups
 
-- Why is a content URI safer?
-- How do you revoke access?
-- How do you restrict paths?
+Try to answer these aloud before revealing the answer.
 
-### Senior/Lead Perspective
+1. **Why is a content URI safer?**
 
-Sharing should be explicit and least-privilege: identify the recipient, grant only the needed operation, and make the grant temporary where possible.
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+2. **How do you revoke access?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
+
+3. **How do you restrict paths?**
+
+<details>
+<summary>Reveal sample answer</summary>
+
+Answer the specific mechanism first, then give a concrete example and one relevant trade-off or edge case.
+
+</details>
 
 ### Common Mistake
 
 Sharing `file://` URIs or raw private filesystem paths.
 
+
+
+### Quick Revision
+
+**Key idea:** Expose the file through a controlled content URI, typically using `FileProvider`, and grant the receiving app only the required temporary read/write permission. Do not expose a raw filesystem path or make a private directory broadly accessible.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
 ## Q8. How should logout affect local storage?
 
 **Difficulty:** 🟡 Intermediate
@@ -184,20 +387,18 @@ If multiple accounts are supported, namespace account-specific database/cache en
 
 ### Common Follow-ups
 
-- What about offline data?
-- What about refresh tokens?
-- How do you handle multiple accounts?
-
-### Senior/Lead Perspective
-
-Logout is a data-lifecycle event. A senior design should specify it alongside authentication rather than treating it as a UI button that clears one preference.
-
-### Common Mistake
-
-Clearing one token while leaving account-specific files, cache, or database rows accessible.
+Try to answer these aloud before revealing the answer.
 
 ### References
 
 - https://developer.android.com/privacy-and-security/security-best-practices
 - https://developer.android.com/privacy-and-security/keystore
 - https://developer.android.com/identity/data/autobackup
+
+### Quick Revision
+
+**Key idea:** Define which data is account-specific and must be removed or invalidated, which cached content can remain safely, and which credentials must be revoked or deleted. If multiple accounts are supported, namespace account-specific database/cache entries so logout does not accidentally expose another account's data.
+
+### Interview Insight
+
+A good answer starts with the mechanism, then adds one concrete example and one trade-off that follows from the choice.
