@@ -2,59 +2,69 @@
 
 Thank you for helping improve the Android Interview Handbook.
 
-## Question quality
+## What makes a good question?
 
-A good contribution should be:
+A good contribution should:
 
-- Technically accurate
-- Relevant to Android development
-- Clearly categorized
-- Useful for interview preparation
-- Written in concise, understandable language
-- Preferably backed by official documentation for Android APIs
+- Test a meaningful Android concept.
+- Have a clear difficulty level.
+- Be useful beyond one company's interview process.
+- Avoid obsolete APIs unless the question is explicitly about legacy Android.
+- Prefer official Android documentation for platform facts.
 
 ## Answer quality
 
-For intermediate/advanced questions, explain:
+Avoid one-line answers for concepts that require explanation.
 
-- Why the answer is correct
-- When the technology should be used
-- Important trade-offs
-- Common mistakes
-- Production considerations
+For each non-trivial question, try to cover:
 
-Avoid outdated APIs unless the question explicitly covers legacy Android development.
+1. The direct answer.
+2. Why it works that way.
+3. A practical example when useful.
+4. Relevant trade-offs.
+5. Common follow-ups.
+6. Senior/Lead implications.
+7. Common mistakes.
+8. Official references.
 
-## Suggested question format
+The Senior/Lead section should be **specific to the question**. Do not use generic text such as "explain trade-offs, failure modes, and testing" for every question.
+
+## Difficulty
+
+- 🟢 Basic
+- 🟡 Intermediate
+- 🔴 Advanced
+- 🟣 System Design
+
+## Technical accuracy
+
+Android changes quickly. When contributing platform/API facts, verify them against current official Android documentation and mention version-specific behavior when relevant.
+
+## Question format
 
 ```markdown
 ## Q. Your question?
 
-### Difficulty
-🔴 Advanced
+**Difficulty:** 🔴 Advanced
 
 ### Answer
 
-Concise, technically accurate answer.
+A useful explanation.
 
-### Follow-ups
+### Common Follow-ups
 
 - Follow-up 1
 - Follow-up 2
 
-### Senior Perspective
+### Senior/Lead Perspective
 
-What a senior developer should additionally understand.
+A question-specific production or architecture discussion.
 
 ### Common Mistake
 
-A frequent misconception.
+A concrete misconception.
 
 ### References
 
-- Official Android documentation
+- Official documentation
 ```
-
-## Keeping content current
-
-Android APIs and platform behavior evolve. When updating a topic, record the date reviewed and prefer current official Android documentation.

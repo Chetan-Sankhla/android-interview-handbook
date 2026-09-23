@@ -2,47 +2,62 @@
 
 A community-friendly, topic-wise collection of Android interview questions, answers, follow-ups, production scenarios, and system-design problems.
 
-The goal is **understanding, not memorization**. Questions are organized from Basic → Intermediate → Advanced → System Design, with an emphasis on the reasoning expected from Senior and Lead Android developers.
-
-## Topics
-
-- Kotlin
-- Android fundamentals
-- Coroutines & Flow
-- Architecture
-- Jetpack Compose
-- Networking
-- Dependency Injection
-- Data & Storage
-- Testing
-- Performance
-- Security
-- System Design
+The goal is **understanding, not memorization**. Questions are organized from Basic → Intermediate → Advanced → Senior/Lead, with an emphasis on the reasoning expected from experienced Android developers.
 
 ## Current content
 
-### Data Storage
-- 198 interview questions with answers
-- Basic → Senior/Lead progression
-- Room, DataStore, SharedPreferences
-- App-specific and shared storage
+### Data Storage — complete
+A curated set of topic-wise interview material covering:
+
+- Storage fundamentals
+- SharedPreferences
+- DataStore
+- Room
+- Room relationships and query performance
+- Transactions and consistency
+- Database migrations
 - Scoped Storage
-- MediaStore
-- Storage Access Framework
-- File caching
+- MediaStore and Storage Access Framework
+- Files and caching
 - Storage security
 - Offline-first architecture
-- Room migrations
-- Production/system-design scenarios
+- Senior/Lead system design
 
 Start here:
 
-- [Data Storage Question Bank](./data-storage/README.md)
+- [Data Storage](./data-storage/)
+
+## Repository structure
+
+```text
+android-interview-handbook/
+├── README.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── ROADMAP.md
+├── TOPICS.md
+│
+└── data-storage/
+    ├── README.md
+    ├── fundamentals.md
+    ├── shared-preferences.md
+    ├── datastore.md
+    ├── room.md
+    ├── room-relations.md
+    ├── room-transactions.md
+    ├── room-migrations.md
+    ├── scoped-storage.md
+    ├── mediastore-and-saf.md
+    ├── file-storage-and-caching.md
+    ├── storage-security.md
+    ├── offline-first.md
+    └── system-design.md
+```
 
 ## Difficulty
 
 - 🟢 Basic — fundamentals
-- 🟡 Intermediate — implementation knowledge
+- 🟡 Intermediate — implementation and design
 - 🔴 Advanced — production reasoning
 - 🟣 System Design — architecture and trade-offs
 
